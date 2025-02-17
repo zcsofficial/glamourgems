@@ -75,62 +75,94 @@ if ($order_items_result->num_rows > 0) {
 <body class="bg-white">
     <div id="app">
     <header class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between h-16">
-                <a href="#" class="font-['Pacifico'] text-2xl text-primary">Glamour Gems</a>
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+            <a href="#" class="font-['Pacifico'] text-2xl text-primary">Glamour Gems</a>
 
-                <nav class="hidden md:flex space-x-8">
-                    <a href="index.php" class="text-gray-700 hover:text-primary">Home</a>
-                    <a href="shop.php" class="text-gray-700 hover:text-primary">Jewelry</a>
-                    <a href="#" class="text-gray-700 hover:text-primary">Fashion</a>
-                    <a href="#" class="text-gray-700 hover:text-primary">New Arrivals</a>
-                    <a href="#" class="text-gray-700 hover:text-primary">Sale</a>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden flex items-center">
+                <button id="mobileMenuBtn" class="text-gray-700 hover:text-primary" onclick="toggleMobileMenu()">
+                    <i class="ri-menu-line text-xl"></i>
+                </button>
+            </div>
 
+            <!-- Navigation for Desktop -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.php" class="text-gray-700 hover:text-primary">Home</a>
+                <a href="shop.php" class="text-gray-700 hover:text-primary">Jewelry</a>
+                <a href="#" class="text-gray-700 hover:text-primary">Fashion</a>
+                <a href="#" class="text-gray-700 hover:text-primary">New Arrivals</a>
+                <a href="#" class="text-gray-700 hover:text-primary">Sale</a>
+
+                <?php if ($username): ?>
+                    <a href="myorders.php" class="text-gray-700 hover:text-primary">Orders</a>
+                <?php endif; ?>
+            </nav>
+
+            <div class="flex items-center space-x-6">
+                <div class="relative">
+                    <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 w-64 bg-gray-50 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary/20">
+                    <div class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-400">
+                        <i class="ri-search-line"></i>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
                     <?php if ($username): ?>
-                        <a href="myorders.php" class="text-gray-700 hover:text-primary">Orders</a>
-                    <?php endif; ?>
-                </nav>
-
-                <div class="flex items-center space-x-6">
-                    <div class="relative">
-                        <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 w-64 bg-gray-50 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary/20">
-                        <div class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-400">
-                            <i class="ri-search-line"></i>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center space-x-4">
-                        <?php if ($username): ?>
-                            <!-- User Dropdown -->
-                            <div class="relative group">
-                                <button class="text-gray-700 hover:text-primary flex items-center space-x-2">
-                                    <span>Welcome, <?php echo $username; ?></span>
-                                    <i class="ri-arrow-down-s-line"></i>
-                                </button>
-                                <div class="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                                    <a href="profile.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
-                                    <a href="myorders.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Orders</a>
-                                    <?php if ($userRole === 'admin'): ?>
-                                        <a href="admin.php" class="block px-4 py-2 text-red-500 hover:bg-gray-100">Admin Panel</a>
-                                    <?php endif; ?>
-                                    <a href="logout.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
-                                </div>
-                            </div>
-                        <?php else: ?>
-                            <button id="accountBtn" class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary relative" onclick="toggleAccountModal()">
-                                <i class="ri-user-line text-xl"></i>
+                        <!-- User Dropdown -->
+                        <div class="relative group">
+                            <button class="text-gray-700 hover:text-primary flex items-center space-x-2">
+                                <span>Welcome, <?php echo $username; ?></span>
+                                <i class="ri-arrow-down-s-line"></i>
                             </button>
-                        <?php endif; ?>
-
-                        <button id="cartBtn" class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary relative" onclick="location.href='cart.php'">
-                            <i class="ri-shopping-bag-line text-xl"></i>
-                            <span class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs rounded-full flex items-center justify-center">3</span>
+                            <div class="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                <a href="profile.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+                                <a href="myorders.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Orders</a>
+                                <?php if ($userRole === 'admin'): ?>
+                                    <a href="admin.php" class="block px-4 py-2 text-red-500 hover:bg-gray-100">Admin Panel</a>
+                                <?php endif; ?>
+                                <a href="logout.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <button id="accountBtn" class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary relative" onclick="toggleAccountModal()">
+                            <i class="ri-user-line text-xl"></i>
                         </button>
-                    </div>
+                    <?php endif; ?>
+
+                    <button id="cartBtn" class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary relative" onclick="location.href='cart.php'">
+                        <i class="ri-shopping-bag-line text-xl"></i>
+                        <span class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs rounded-full flex items-center justify-center">3</span>
+                    </button>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden absolute left-0 right-0 top-16 bg-white border-t border-gray-200 hidden">
+        <nav class="flex flex-col space-y-4 px-4 py-4">
+            <a href="index.php" class="text-gray-700 hover:text-primary">Home</a>
+            <a href="shop.php" class="text-gray-700 hover:text-primary">Jewelry</a>
+            <a href="#" class="text-gray-700 hover:text-primary">Fashion</a>
+            <a href="#" class="text-gray-700 hover:text-primary">New Arrivals</a>
+            <a href="#" class="text-gray-700 hover:text-primary">Sale</a>
+
+            <?php if ($username): ?>
+                <a href="myorders.php" class="text-gray-700 hover:text-primary">Orders</a>
+            <?php endif; ?>
+        </nav>
+    </div>
+</header>
+
+<script>
+    // Toggle mobile menu
+    function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenu.classList.toggle('hidden');
+    }
+</script>
+
 
         <main class="mt-16">
             <!-- Order Confirmation -->
